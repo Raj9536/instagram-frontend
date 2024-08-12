@@ -82,38 +82,52 @@ const Login = () => {
     }));
   };
 
-  // Handle form submission
-  const handleLogin = async (e) => {
-    e.preventDefault();
-  
-    try {
-      const response = await fetch('http://localhost:8000/api/v1/users/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: form.username, // Username from the first box
-          password: form.password, // Password from the second box
-        }),
-      });
-  
-      if (response.ok) {
-        // Login successful
-        toast.success('Login successful! Redirecting...');
-        setTimeout(() => navigate('/home'), 2000); // Redirect after 2 seconds
-      } else if (response.status === 401) {
-        // Unauthorized access
-        toast.error('Invalid credentials. Please try again.');
-      } else {
-        // Other errors
-        const errorData = await response.json();
-        toast.error(errorData.message || 'An error occurred');
-      }
-    } catch (error) {
-      toast.error(error.message || 'An error occurred');
+// Handle form submission
+// Handle form submission
+const handleLogin = async (e) => {
+  e.preventDefault();
+
+  try {
+    const response = await fetch('http://localhost:8000/api/v1/users/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: form.username, // Username from the first box
+        password: form.password, // Password from the second box
+      }),
+    });
+
+    if (response.ok) {
+      // Parse the response to get the data
+      const data = await response.json();
+
+      // Extract username and access token from the response data
+      const { accessToken, username } = data.data;
+
+      // Store access token and username in local storage
+      localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('username', username);
+
+      // Display a success toast with the username
+      toast.success(`Login successful! Welcome, ${username}. Redirecting...`);
+
+      // Redirect to the home page after 2 seconds
+      setTimeout(() => navigate('/home'), 2000);
+    } else if (response.status === 401) {
+      // Unauthorized access
+      toast.error('Invalid credentials. Please try again.');
+    } else {
+      // Handle other errors
+      const errorData = await response.json();
+      toast.error(errorData.message || 'An error occurred');
     }
-  };
+  } catch (error) {
+    toast.error(error.message || 'An error occurred');
+  }
+};
+
   
   
   
