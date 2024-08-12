@@ -6,6 +6,7 @@ import PostList from '../PostList';
 import SideNav from '../Sidenav';
 import Footer from '../footer'
 
+
 const HomePage = () => {
   return (
     <Box sx={{ display: 'flex' }}>
