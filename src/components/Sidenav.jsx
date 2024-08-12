@@ -1,11 +1,10 @@
-// path: SideNav.jsx
-
 import React, { useState } from 'react';
 import { Box, List, ListItem, ListItemIcon, ListItemText, useMediaQuery } from '@mui/material';
-import { Instagram as InstagramIcon, Home as HomeIcon, Search as SearchIcon, Explore as ExploreIcon,/*  Movie as ReelsIcon, Send as MessageIcon, Favorite as NotificationIcon, */ AddBox as CreateIcon, AccountCircle as ProfileIcon, Menu as MenuIcon } from '@mui/icons-material';
+import { Instagram as InstagramIcon, Home as HomeIcon, Search as SearchIcon, Explore as ExploreIcon, AddBox as CreateIcon, AccountCircle as ProfileIcon, Menu as MenuIcon } from '@mui/icons-material';
 import SearchPanel from './SearchPanel';
-import More from './More';  // Importing the More component
+import More from './More';
 import { styled } from '@mui/material/styles';
+import { Link } from 'react-router-dom'; // Import Link for navigation
 
 // Drawer width
 const drawerWidth = 240;
@@ -34,7 +33,7 @@ const InstagramLogo = styled(Box)({
 const SideNav = () => {
   const [isSearchOpen, setSearchOpen] = useState(false);
   const [isCollapsed, setCollapsed] = useState(false);
-  const [isMoreOpen, setIsMoreOpen] = useState(false); // State for managing More modal
+  const [isMoreOpen, setIsMoreOpen] = useState(false);
 
   const isSmallScreen = useMediaQuery('(max-width: 600px)');
 
@@ -64,7 +63,7 @@ const SideNav = () => {
         zIndex: 1300,
         transition: 'width 0.3s ease',
         overflow: 'hidden',
-        borderRight: '0.35px  solid grey'
+        borderRight: '0.35px solid grey'
       }}
     >
       <Box>
@@ -78,14 +77,16 @@ const SideNav = () => {
             marginBottom: '20px',
           }}
         >
-          {!isCollapsed ? (
-            <InstagramLogo />
-          ) : (
-            <InstagramIcon fontSize="large" />
-          )}
+          <Link to="/home">
+            {!isCollapsed ? (
+              <InstagramLogo />
+            ) : (
+              <InstagramIcon fontSize="large" />
+            )}
+          </Link>
         </Box>
         <List sx={{ marginTop: '0' }}>
-          <StyledListItem button>
+          <StyledListItem button component={Link} to="/home">
             <ListItemIcon sx={{ minWidth: '35px' }}>
               <HomeIcon />
             </ListItemIcon>
@@ -97,37 +98,13 @@ const SideNav = () => {
             </ListItemIcon>
             {!isCollapsed && <ListItemText primary="Search" />}
           </StyledListItem>
-         {/*  <StyledListItem button>
-            <ListItemIcon sx={{ minWidth: '35px' }}>
-              <ExploreIcon />
-            </ListItemIcon>
-            {!isCollapsed && <ListItemText primary="Explore" />}
-          </StyledListItem>
-          <StyledListItem button>
-            <ListItemIcon sx={{ minWidth: '35px' }}>
-              <ReelsIcon />
-            </ListItemIcon>
-            {!isCollapsed && <ListItemText primary="Reels" />}
-          </StyledListItem>
-          <StyledListItem button>
-            <ListItemIcon sx={{ minWidth: '35px' }}>
-              <MessageIcon />
-            </ListItemIcon>
-            {!isCollapsed && <ListItemText primary="Message" />}
-          </StyledListItem>
-          <StyledListItem button>
-            <ListItemIcon sx={{ minWidth: '35px' }}>
-              <NotificationIcon />
-            </ListItemIcon>
-            {!isCollapsed && <ListItemText primary="Notification" />}
-          </StyledListItem> */}
-          <StyledListItem button>
+          <StyledListItem button component={Link} to="/createPopup">
             <ListItemIcon sx={{ minWidth: '35px' }}>
               <CreateIcon />
             </ListItemIcon>
             {!isCollapsed && <ListItemText primary="Create" />}
           </StyledListItem>
-          <StyledListItem button>
+          <StyledListItem button component={Link} to="/profile">
             <ListItemIcon sx={{ minWidth: '35px' }}>
               <ProfileIcon />
             </ListItemIcon>
@@ -166,7 +143,7 @@ const SideNav = () => {
         zIndex: 1300,
       }}
     >
-      <ListItem button>
+      <ListItem button component={Link} to="/">
         <ListItemIcon><HomeIcon /></ListItemIcon>
       </ListItem>
       <ListItem button onClick={handleSearchClick}>

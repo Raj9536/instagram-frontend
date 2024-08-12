@@ -2,7 +2,9 @@ import React from 'react';
 import { Box, Typography, Button, IconButton, Divider, Avatar, Tabs, Tab } from '@mui/material';
 import { styled } from '@mui/system';
 import SideNav from '../Sidenav'; // Adjust the path as necessary
-import Footer from '../footer'; // Adjust the path as necessary
+import Footer from '../footer';
+// import { Link } from 'react-router-dom'; 
+ // Adjust the path as necessary
 
 // Styled components
 const ProfileHeader = styled(Box)(({ theme }) => ({
@@ -97,7 +99,7 @@ const Profile = () => {
               <Typography variant="h6" sx={{ flex: 1 }}>
                 user_name
               </Typography>
-              <Button href="/accounts/edit" variant="text">
+              <Button href={'../EditProfile'} variant="text">
                 Edit Profile
               </Button>
             </Box>

@@ -5,6 +5,7 @@ import Login from './components/pages/login';
 import Home from './components/pages/Home';
 import Profile from './components/pages/Profile'
 import EditProfile from './components/EditProfile';
+import CreatePopup from './components/CreatePopup';
 function App() {
   return (
     <Router>
@@ -14,6 +15,7 @@ function App() {
         <Route path='/home' element={<Home/>}/>
         <Route path='/profile' element={<Profile/>}/>
         <Route path='/editProfile' element={<EditProfile/>}/>
+        <Route path='/createPopup' element={<CreatePopup/>}/>
 
       </Routes>
     </Router>
