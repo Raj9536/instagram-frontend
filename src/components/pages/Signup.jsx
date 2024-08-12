@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
@@ -11,6 +12,8 @@ import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import { styled } from '@mui/material/styles';
 import Footer from '../footer';
+import { toast, ToastContainer } from 'react-toastify'; // Import toast and ToastContainer
+import 'react-toastify/dist/ReactToastify.css'; // Import the CSS for toast notifications
 
 const StyledTextField = styled(TextField)(({ theme }) => ({
   '& .MuiInputBase-root': {
@@ -46,6 +49,8 @@ function Signup() {
     showPassword: false,
   });
 
+  const navigate = useNavigate(); // Initialize useNavigate for redirection
+
   const handleChange = (prop) => (event) => {
     const value = event.target.value;
     setForm({ ...form, [prop]: value });
@@ -55,185 +60,220 @@ function Signup() {
     setForm({ ...form, showPassword: !form.showPassword });
   };
 
+  const handleSignup = async (e) => {
+    e.preventDefault();
+  
+    try {
+      const response = await fetch('http://localhost:8000/api/v1/users/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: form.email,
+          fullName: form.fullName,
+          username: form.username,
+          password: form.password,
+        }),
+      });
+  
+      if (response.ok) {
+        // No need to store result if it's not used
+        toast.success('Registration successful! Redirecting...');
+        setTimeout(() => navigate('/home'), 2000); // Redirect after 2 seconds
+      } else {
+        // Optionally handle error message from response if needed
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Registration failed');
+      }
+    } catch (error) {
+      toast.error(error.message || 'An error occurred');
+    }
+  };
+  
+  
+
   return (
     <>
-    <Box display="flex" flexDirection="column" minHeight="100vh">
-      <Box
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-        justifyContent="center"
-        flexGrow={1}
-        sx={{ bgcolor: 'background.paper' }}
-      >
-        <Box
-          width={310}
-          p={2}
-          display="flex"
-          flexDirection="column"
-          alignItems="center"
-          sx={{
-            border: '1px solid #dbdbdb',
-            bgcolor: 'white',
-          }}
-        >
-          <InstagramLogo />
-          <Typography
-            variant="body1"
-            gutterBottom
-            sx={{
-              fontSize: '0.94rem',
-              textAlign: 'center',
-              mb: 1,
-              mt: 2,
-              color: 'grey',
-              fontWeight: 'bold',
-            }}
-          >
-            Sign up to see photos and videos <br /> from your friends.
-          </Typography>
-          <Stack spacing={0.6} width="100%" alignItems="center">
-            <StyledTextField
-              variant="outlined"
-              margin="dense"
-              fullWidth
-              placeholder="Mobile number or email"
-              value={form.email}
-              onChange={handleChange('email')}
-              InputProps={{ style: { fontSize: '0.6rem' } }}
-            />
-            <StyledTextField
-              variant="outlined"
-              margin="dense"
-              fullWidth
-              placeholder="Full name"
-              value={form.fullName}
-              onChange={handleChange('fullName')}
-              InputProps={{ style: { fontSize: '0.6rem' } }}
-            />
-            <StyledTextField
-              variant="outlined"
-              margin="dense"
-              fullWidth
-              placeholder="Username"
-              value={form.username}
-              onChange={handleChange('username')}
-              InputProps={{ style: { fontSize: '0.6rem' } }}
-            />
-            <StyledTextField
-              variant="outlined"
-              margin="dense"
-              fullWidth
-              placeholder="Password"
-              type={form.showPassword ? 'text' : 'password'}
-              value={form.password}
-              onChange={handleChange('password')}
-              InputProps={{
-                style: { fontSize: '0.6rem' },
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      edge="end"
-                    >
-                      {form.showPassword ? <Visibility /> : <VisibilityOff />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </Stack>
-          <Typography
-            variant="caption"
-            display="block"
-            gutterBottom
-            sx={{ mt: 2, fontSize: '0.75rem', textAlign: 'center' }}
-          >
-            People who use our service may have uploaded your contact information
-            to Instagram. <Link href="#" sx={{ fontSize: '0.75rem' }}>Learn More</Link>
-          </Typography>
-          <Typography
-            variant="caption"
-            display="block"
-            gutterBottom
-            sx={{ fontSize: '0.75rem', textAlign: 'center' }}
-          >
-            By signing up, you agree to our <Link href="#" sx={{ fontSize: '0.75rem' }}>Terms</Link>,
-            <Link href="#" sx={{ fontSize: '0.75rem' }}>Privacy Policy</Link> and
-            <Link href="#" sx={{ fontSize: '0.75rem' }}>Cookies Policy</Link>.
-          </Typography>
-          <Button
-            variant="contained"
-            color="primary"
-            sx={{
-              bgcolor: 'rgb(0, 149, 246)',
-              color: 'white',
-              width: '94%',
-              mt: 1.3,
-              mb: 0.5,
-              textTransform: 'none',
-              fontSize: '0.875rem',
-              borderRadius: 1.5,
-              boxShadow: 'none',
-            }}
-          >
-            Sign Up
-          </Button>
-        </Box>
+      <ToastContainer /> {/* Add ToastContainer to render toasts */}
+      <Box display="flex" flexDirection="column" minHeight="100vh">
         <Box
           display="flex"
           flexDirection="column"
           alignItems="center"
           justifyContent="center"
-          mt={1}
-          p={2}
-          width={310}
-          height={33}
-          sx={{ bgcolor: 'white', border: '1px solid #dbdbdb' }}
+          flexGrow={1}
+          sx={{ bgcolor: 'background.paper' }}
         >
-          <Typography variant="body2" sx={{ fontSize: '0.875rem' }}>
-            Have an account?{' '}
-            <Link href="/login" sx={{ fontSize: '0.875rem' }}>
-              Log in
-            </Link>
-          </Typography>
-        </Box>
-        <Box
-          width={280}
-          p={1}
-          display="flex"
-          flexDirection="column"
-          alignItems="center"
-          mt={1}
-          sx={{ border: 'none', bgcolor: 'white' }}
-        >
-          <Typography
-            variant="body2"
-            sx={{ fontSize: '0.8rem', color: '#262626', fontWeight: 'bold' }}
+          <Box
+            width={310}
+            p={2}
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            sx={{
+              border: '1px solid #dbdbdb',
+              bgcolor: 'white',
+            }}
           >
-            Get the app
-          </Typography>
-          <Box display="flex" justifyContent="center" mt={1}>
-            <Link href="https://www.microsoft.com/store/apps" sx={{ mr: 1 }}>
-              <img
-                src="/images/Get_it_from_microsoft.png"
-                alt="Get it from Microsoft"
-                style={{ width: 'auto', height: 43.5 }}
+            <InstagramLogo />
+            <Typography
+              variant="body1"
+              gutterBottom
+              sx={{
+                fontSize: '0.94rem',
+                textAlign: 'center',
+                mb: 1,
+                mt: 2,
+                color: 'grey',
+                fontWeight: 'bold',
+              }}
+            >
+              Sign up to see photos and videos <br /> from your friends.
+            </Typography>
+            <Stack spacing={0.6} width="100%" alignItems="center">
+              <StyledTextField
+                variant="outlined"
+                margin="dense"
+                fullWidth
+                placeholder="Mobile number or email"
+                value={form.email}
+                onChange={handleChange('email')}
+                InputProps={{ style: { fontSize: '0.6rem' } }}
               />
-            </Link>
-            <Link href="https://play.google.com/store/apps" sx={{ ml: 1 }}>
-              <img
-                src="/images/Get_it_from_google_play.png"
-                alt="Get it from Google Play"
-                style={{ width: 'auto', height: 43.5 }}
+              <StyledTextField
+                variant="outlined"
+                margin="dense"
+                fullWidth
+                placeholder="Full name"
+                value={form.fullName}
+                onChange={handleChange('fullName')}
+                InputProps={{ style: { fontSize: '0.6rem' } }}
               />
-            </Link>
+              <StyledTextField
+                variant="outlined"
+                margin="dense"
+                fullWidth
+                placeholder="Username"
+                value={form.username}
+                onChange={handleChange('username')}
+                InputProps={{ style: { fontSize: '0.6rem' } }}
+              />
+              <StyledTextField
+                variant="outlined"
+                margin="dense"
+                fullWidth
+                placeholder="Password"
+                type={form.showPassword ? 'text' : 'password'}
+                value={form.password}
+                onChange={handleChange('password')}
+                InputProps={{
+                  style: { fontSize: '0.6rem' },
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        edge="end"
+                      >
+                        {form.showPassword ? <Visibility /> : <VisibilityOff />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Stack>
+            <Typography
+              variant="caption"
+              display="block"
+              gutterBottom
+              sx={{ mt: 2, fontSize: '0.75rem', textAlign: 'center' }}
+            >
+              People who use our service may have uploaded your contact information
+              to Instagram. <Link href="#" sx={{ fontSize: '0.75rem' }}>Learn More</Link>
+            </Typography>
+            <Typography
+              variant="caption"
+              display="block"
+              gutterBottom
+              sx={{ fontSize: '0.75rem', textAlign: 'center' }}
+            >
+              By signing up, you agree to our <Link href="#" sx={{ fontSize: '0.75rem' }}>Terms</Link>,
+              <Link href="#" sx={{ fontSize: '0.75rem' }}>Privacy Policy</Link> and
+              <Link href="#" sx={{ fontSize: '0.75rem' }}>Cookies Policy</Link>.
+            </Typography>
+            <Button
+              variant="contained"
+              color="primary"
+              sx={{
+                bgcolor: 'rgb(0, 149, 246)',
+                color: 'white',
+                width: '94%',
+                mt: 1.3,
+                mb: 0.5,
+                textTransform: 'none',
+                fontSize: '0.875rem',
+                borderRadius: 1.5,
+                boxShadow: 'none',
+              }}
+              onClick={handleSignup} // Add the handleSignup function to the button's onClick event
+            >
+              Sign Up
+            </Button>
+          </Box>
+          <Box
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            justifyContent="center"
+            mt={1}
+            p={2}
+            width={310}
+            height={33}
+            sx={{ bgcolor: 'white', border: '1px solid #dbdbdb' }}
+          >
+            <Typography variant="body2" sx={{ fontSize: '0.875rem' }}>
+              Have an account?{' '}
+              <Link href="/login" sx={{ fontSize: '0.875rem' }}>
+                Log in
+              </Link>
+            </Typography>
+          </Box>
+          <Box
+            width={280}
+            p={1}
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            mt={1}
+            sx={{ border: 'none', bgcolor: 'white' }}
+          >
+            <Typography
+              variant="body2"
+              sx={{ fontSize: '0.8rem', color: '#262626', fontWeight: 'bold' }}
+            >
+              Get the app
+            </Typography>
+            <Box display="flex" justifyContent="center" mt={1}>
+              <Link href="https://www.microsoft.com/store/apps" sx={{ mr: 1 }}>
+                <img
+                  src="/images/Get_it_from_microsoft.png"
+                  alt="Get it from Microsoft"
+                  style={{ width: 'auto', height: 43.5 }}
+                />
+              </Link>
+              <Link href="https://play.google.com/store/apps" sx={{ ml: 1 }}>
+                <img
+                  src="/images/Get_it_from_google_play.png"
+                  alt="Get it from Google Play"
+                  style={{ width: 'auto', height: 43.5 }}
+                />
+              </Link>
+            </Box>
           </Box>
         </Box>
       </Box>
-    </Box>
-    <Footer/>
+      <Footer/>
     </>
   );
 }
