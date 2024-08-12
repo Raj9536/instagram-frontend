@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button, Typography, IconButton, Input } from '@mui/material';
+import { Box, Typography, IconButton, TextField } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
 const CreatePopup = ({ open, onClose }) => {
@@ -24,7 +24,7 @@ const CreatePopup = ({ open, onClose }) => {
         sx={{
           backgroundColor: '#fff',
           borderRadius: '8px',
-          padding: '20px',
+          padding: '80px',
           position: 'relative',
           width: '80%',
           maxWidth: '500px',
@@ -40,22 +40,21 @@ const CreatePopup = ({ open, onClose }) => {
           }}
         >
           <CloseIcon />
-        </IconButton>
-        <Typography variant="h6" gutterBottom>
+        </IconButton >
+        <Typography variant="h5" gutterBottom>
           Create New Post
         </Typography>
         <Typography variant="body2" color="textSecondary" gutterBottom>
           Drag photos and videos here
         </Typography>
-        <Input
+        <TextField style={{}}
           type="file"
-          accept="image/jpeg,image/png,image/heic,image/heif,video/mp4,video/quicktime"
-          multiple
-          sx={{ display: 'block', marginBottom: '20px' }}
+          inputProps={{
+            accept: 'image/jpeg,image/png,image/heic,image/heif,video/mp4,video/quicktime',
+            multiple: true,
+          }}
+          sx={{ display: 'block', marginBottom: '20px', padding: "10px" }}
         />
-        <Button variant="contained" color="primary">
-          Select from computer
-        </Button>
       </Box>
     </Box>
   );

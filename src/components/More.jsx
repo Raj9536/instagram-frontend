@@ -10,10 +10,12 @@ import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlin
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import AnnouncementOutlinedIcon from "@mui/icons-material/AnnouncementOutlined";
 import { Divider, Modal } from "@mui/material";
+import { useNavigate, } from "react-router-dom";
 
 export default function TypographyMenu({ isMoreOpen, setIsMoreOpen }) {
   const [isSettingsOpen, setIsSettingsOpen] = React.useState(false);
 
+  const navigation =useNavigate()
   return (
     <Modal
       open={isMoreOpen}
@@ -123,7 +125,7 @@ export default function TypographyMenu({ isMoreOpen, setIsMoreOpen }) {
             </Typography>
           </MenuItem>
           <Divider className="custom-divider" />
-          <MenuItem>
+          <MenuItem onClick={()=>{navigation('/login')}}>
             <Typography variant="inherit" noWrap>
               Log out
             </Typography>

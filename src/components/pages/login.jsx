@@ -70,6 +70,7 @@ const Login = () => {
   };
 
   return (
+    <>
     <Container
       maxWidth="lg"
       sx={{
@@ -80,7 +81,7 @@ const Login = () => {
       }}
     >
       <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center', marginTop: 10 }}>
-        <Box sx={{ display: 'flex', width: '100%', height: '70%' }}>
+        <Box sx={{ display: 'flex', width: '58%', height: '70%' }}>
           {/*-------------------------colour box start-----------------------------*/}
           {/* Background Image with Slideshow */}
           <Box
@@ -88,15 +89,17 @@ const Login = () => {
               flex: 1,
               display: { xs: 'none', md: 'flex' },
               position: 'relative',
-              width: '100%',
-              height: 600,
+              width: '0%',
+              height: 650,
               backgroundImage: `url(${LoginBackground})`,
               backgroundRepeat: 'no-repeat',
-              backgroundPosition: 'center 2px',
-              border: '5px solid #FF6347', // Tomato color for the border
-              padding: 0, // Remove padding
-              margin: 0,  // Remove margin
-              overflow: 'hidden' // Hide overflow
+              backgroundPosition: 'center',
+              // border: '5px solid #FF6347', // Tomato color for the border
+              padding: "17px", // Remove padding
+              margin: "0",  // Remove margin
+              marginTop: "-68px",
+              overflow: 'hidden', // Hide overflow
+              marginLeft: "-55px"
             }}
           >
             {[LoginImage1, LoginImage2, LoginImage3, LoginImage4].map((src, index) => (
@@ -106,8 +109,8 @@ const Login = () => {
                   alt=""
                   style={{
                     position: 'absolute',
-                    top: 28,
-                    right: 58,
+                    top: 50,
+                    right: 30,
                     opacity: show1 === index + 1 ? 1 : 0,
                     transition: 'opacity 1.5s ease-in-out',
                   }}
@@ -126,8 +129,10 @@ const Login = () => {
               flexDirection="column"
               alignItems="center"
               sx={{
-                border: '5px solid #4CAF50', // Green color for the border
+                border: '5px ',
+                boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.3)",// Green color for the border
                 bgcolor: 'white',
+                // marginRight: "200px"
               }}
             >
               <InstagramLogo />
@@ -151,18 +156,6 @@ const Login = () => {
                   margin="dense"
                   fullWidth
                   placeholder="Mobile number or email"
-                />
-                <StyledTextField
-                  variant="outlined"
-                  margin="dense"
-                  fullWidth
-                  placeholder="Full name"
-                />
-                <StyledTextField
-                  variant="outlined"
-                  margin="dense"
-                  fullWidth
-                  placeholder="Username"
                 />
                 <StyledTextField
                   variant="outlined"
@@ -219,7 +212,7 @@ const Login = () => {
                   boxShadow: 'none',
                 }}
               >
-                Sign Up
+                Sign in
               </Button>
             </Box>
             {/*-------------------------green box end-----------------------------*/}
@@ -231,14 +224,18 @@ const Login = () => {
               alignItems="center"
               justifyContent="center"
               p={2}
-              width={310}
+              width={279}
               height={33}
-              sx={{ bgcolor: 'white', border: '5px solid #1E90FF' }} // DodgerBlue color for the border
+              sx={{
+                boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.3)",
+
+
+              }}
             >
               <Typography variant="body2" sx={{ fontSize: '0.875rem' }}>
-                Have an account?{' '}
-                <Link href="#" sx={{ fontSize: '0.875rem' }}>
-                  Log in
+               Don't Have an account?{' '}
+                <Link href="/signup" sx={{ fontSize: '0.875rem' }}>
+                  Sign up
                 </Link>
               </Typography>
             </Box>
@@ -246,10 +243,45 @@ const Login = () => {
           </FormStyle>
         </Box>
       </Box>
+    
+        <Box
+          width={280}
+          p={1}
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          mt={1}
+          sx={{ border: 'none', bgcolor: 'white', marginLeft:"611px", marginTop: "-80px" }}
+        >
+          <Typography
+            variant="body2"
+            sx={{ fontSize: '0.8rem', color: '#262626', fontWeight: 'bold' }}
+          >
+            Get the app
+          </Typography>
+          <Box display="flex" justifyContent="center" mt={1}>
+            <Link href="https://www.microsoft.com/store/apps" sx={{ mr: 1 }}>
+              <img
+                src="/images/Get_it_from_microsoft.png"
+                alt="Get it from Microsoft"
+                style={{ width: 'auto', height: 43.5 }}
+              />
+            </Link>
+            <Link href="https://play.google.com/store/apps" sx={{ ml: 1 }}>
+              <img
+                src="/images/Get_it_from_google_play.png"
+                alt="Get it from Google Play"
+                style={{ width: 'auto', height: 43.5 }}
+              />
+            </Link>
+          </Box>
+        </Box>
 
-      {/* Footer */}
+
+    
       <Footer />
     </Container>
+    </>
   );
 };
 

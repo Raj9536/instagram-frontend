@@ -4,7 +4,8 @@ import { Instagram as InstagramIcon, Home as HomeIcon, Search as SearchIcon, Exp
 import SearchPanel from './SearchPanel';
 import More from './More';
 import { styled } from '@mui/material/styles';
-import { Link } from 'react-router-dom'; // Import Link for navigation
+import { Link } from 'react-router-dom';
+import CreatePopup from './CreatePopup';
 
 // Drawer width
 const drawerWidth = 240;
@@ -29,11 +30,11 @@ const InstagramLogo = styled(Box)({
   display: 'inline-block',
 });
 
-// Main SideNav Component
 const SideNav = () => {
   const [isSearchOpen, setSearchOpen] = useState(false);
   const [isCollapsed, setCollapsed] = useState(false);
   const [isMoreOpen, setIsMoreOpen] = useState(false);
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
 
   const isSmallScreen = useMediaQuery('(max-width: 600px)');
 
@@ -46,7 +47,14 @@ const SideNav = () => {
     setIsMoreOpen(true);
   };
 
-  //-------------------------------normal nav----------------------------
+  const handleCreateClick = () => {
+    setIsCreateOpen(true); // Open CreatePopup
+  };
+
+  const handleCloseCreatePopup = () => {
+    setIsCreateOpen(false); // Close CreatePopup
+  };
+
   const fullNav = (
     <Box
       sx={{
@@ -63,7 +71,7 @@ const SideNav = () => {
         zIndex: 1300,
         transition: 'width 0.3s ease',
         overflow: 'hidden',
-        borderRight: '0.35px solid grey'
+        borderRight: '0.35px solid grey',
       }}
     >
       <Box>
@@ -98,7 +106,7 @@ const SideNav = () => {
             </ListItemIcon>
             {!isCollapsed && <ListItemText primary="Search" />}
           </StyledListItem>
-          <StyledListItem button component={Link} to="/createPopup">
+          <StyledListItem button onClick={handleCreateClick}>
             <ListItemIcon sx={{ minWidth: '35px' }}>
               <CreateIcon />
             </ListItemIcon>
@@ -115,18 +123,17 @@ const SideNav = () => {
       <StyledListItem
         button
         onClick={handleMoreClick}
-        sx={{ marginBottom: '1rem' }}  // Added margin from the bottom
+        sx={{ marginBottom: '1rem' }}
       >
         <ListItemIcon sx={{ minWidth: '35px' }}>
           <MenuIcon />
         </ListItemIcon>
         {!isCollapsed && <ListItemText primary="More" />}
       </StyledListItem>
-      <More isMoreOpen={isMoreOpen} setIsMoreOpen={setIsMoreOpen} />  {/* Passing the state to More */}
+      <More isMoreOpen={isMoreOpen} setIsMoreOpen={setIsMoreOpen} />
     </Box>
   );
 
-  //-------------------------------shrunken nav----------------------------
   const bottomNav = (
     <Box
       sx={{
@@ -138,8 +145,8 @@ const SideNav = () => {
         boxShadow: '0px -2px 10px rgba(0, 0, 0, 0.1)',
         display: 'flex',
         justifyContent: 'space-around',
-        padding: '10px 0', // Match padding with normal nav
-        marginBottom: '40px', // Space from bottom to match normal nav
+        padding: '10px 0',
+        marginBottom: '40px',
         zIndex: 1300,
       }}
     >
@@ -149,7 +156,7 @@ const SideNav = () => {
       <ListItem button onClick={handleSearchClick}>
         <ListItemIcon><SearchIcon /></ListItemIcon>
       </ListItem>
-      <ListItem button>
+      <ListItem button onClick={handleCreateClick}>
         <ListItemIcon><CreateIcon /></ListItemIcon>
       </ListItem>
       <ListItem button>
@@ -158,7 +165,7 @@ const SideNav = () => {
       <ListItem button onClick={handleMoreClick}>
         <ListItemIcon><MenuIcon /></ListItemIcon>
       </ListItem>
-      <More isMoreOpen={isMoreOpen} setIsMoreOpen={setIsMoreOpen} /> {/* Added More component for small screen */}
+      <More isMoreOpen={isMoreOpen} setIsMoreOpen={setIsMoreOpen} />
     </Box>
   );
 
@@ -166,6 +173,7 @@ const SideNav = () => {
     <>
       {isSmallScreen ? bottomNav : fullNav}
       <SearchPanel open={isSearchOpen} onClose={handleSearchClick} />
+      <CreatePopup open={isCreateOpen} onClose={handleCloseCreatePopup} /> {/* Added close function */}
     </>
   );
 };

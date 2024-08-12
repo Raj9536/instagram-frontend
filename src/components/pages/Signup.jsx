@@ -10,6 +10,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import { styled } from '@mui/material/styles';
+import Footer from '../footer';
 
 const StyledTextField = styled(TextField)(({ theme }) => ({
   '& .MuiInputBase-root': {
@@ -55,6 +56,7 @@ function Signup() {
   };
 
   return (
+    <>
     <Box display="flex" flexDirection="column" minHeight="100vh">
       <Box
         display="flex"
@@ -192,7 +194,7 @@ function Signup() {
         >
           <Typography variant="body2" sx={{ fontSize: '0.875rem' }}>
             Have an account?{' '}
-            <Link href="#" sx={{ fontSize: '0.875rem' }}>
+            <Link href="/login" sx={{ fontSize: '0.875rem' }}>
               Log in
             </Link>
           </Typography>
@@ -231,6 +233,8 @@ function Signup() {
         </Box>
       </Box>
     </Box>
+    <Footer/>
+    </>
   );
 }
 
