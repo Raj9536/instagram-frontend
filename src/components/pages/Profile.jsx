@@ -4,6 +4,12 @@ import { useNavigate } from "react-router-dom";
 import Sidebar from "../Sidenav";
 import { styled } from "@mui/material/styles";
 
+const username = localStorage.getItem('username');
+const accessToken = localStorage.getItem('accessToken');
+const id = localStorage.getItem('id');
+console.log('id:', id);
+console.log('accessToken:', accessToken);
+console.log('username:', username);
 // Styled components
 const StyledAvatar = styled(Avatar)({
   width: 120,
@@ -132,7 +138,8 @@ const Profile = () => {
                 <MetaTypography variant="body2" fontWeight="bold">
                   Posts
                 </MetaTypography>
-                <MetaTypography>0</MetaTypography>
+                <MetaTypography>{user.posts ? user.posts.length : 0}</MetaTypography>
+
               </Box>
               <Box>
                 <MetaTypography variant="body2" fontWeight="bold">
@@ -144,7 +151,7 @@ const Profile = () => {
                 <MetaTypography variant="body2" fontWeight="bold">
                   Following
                 </MetaTypography>
-                <MetaTypography>{user.following ? user.following.length : 0}</MetaTypography>
+                <MetaTypography>{user.followings ? user.followings.length : 0}</MetaTypography>
               </Box>
             </Box>
             {/* Display user bio if available */}

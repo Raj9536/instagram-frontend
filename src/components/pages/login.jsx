@@ -83,7 +83,6 @@ const Login = () => {
   };
 
 // Handle form submission
-// Handle form submission
 const handleLogin = async (e) => {
   e.preventDefault();
 
@@ -95,31 +94,33 @@ const handleLogin = async (e) => {
       },
       body: JSON.stringify({
         username: form.username, // Username from the first box
-        password: form.password, // Password from the second box
+        password: form.password,
+         // Password from the second box
       }),
     });
 
     if (response.ok) {
-      // Parse the response to get the data
+
       const data = await response.json();
 
-      // Extract username and access token from the response data
-      const { accessToken, username } = data.data;
+      const { accessToken, username,id} = data.data;
 
-      // Store access token and username in local storage
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('username', username);
-
-      // Display a success toast with the username
+      localStorage.setItem('id', id);
+      console.log('id:', id);
+      console.log('accessToken:', id);
+      console.log('username:', id);
+   
       toast.success(`Login successful! Welcome, ${username}. Redirecting...`);
 
-      // Redirect to the home page after 2 seconds
+   
       setTimeout(() => navigate('/home'), 2000);
     } else if (response.status === 401) {
-      // Unauthorized access
+      
       toast.error('Invalid credentials. Please try again.');
     } else {
-      // Handle other errors
+     
       const errorData = await response.json();
       toast.error(errorData.message || 'An error occurred');
     }

@@ -7,6 +7,13 @@ import SideNav from '../Sidenav';
 import Footer from '../footer'
 
 
+const username = localStorage.getItem('username');
+const accessToken = localStorage.getItem('accessToken');
+const id = localStorage.getItem('id');
+console.log('id:', id);
+console.log('accessToken:', accessToken);
+console.log('username:', username);
+
 const HomePage = () => {
   return (
     <Box sx={{ display: 'flex' }}>
