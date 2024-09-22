@@ -64,7 +64,7 @@ const SearchPanel = ({ open, onClose }) => {
       console.error('Error fetching user ID:', error);
     }
   };
-
+//hello git
   const handleFollow = async (username) => {
     try {
       const response = await fetch(`/api/v1/users/${username}/follow`, {
